@@ -4,57 +4,57 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "MainWidget.generated.h"
+#include "UPopUpWidget.generated.h"
 
-class UHorizontalBox;
-class UImage;
+
 class UTextBlock;
 class UButton;
-class UUOptionWidget;
-class UUPopUpWidget;
-
 /**
  * 
  */
-
+UENUM()
+enum class OptionType : uint8
+{
+	Exit UMETA(DisplayName = "EXIT"),
+	Warning_Alarm UMETA(DisplayName = "WARNING"),
+	Warning_RangeOver UMETA(DisplayName = "WARNING")
+};
 
 UCLASS()
-class PROJECT_CPS_API UMainWidget : public UUserWidget
+class PROJECT_CPS_API UUPopUpWidget : public UUserWidget
 {
 	GENERATED_BODY()
-	
+
 private:
-	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget),meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UHorizontalBox> Head;
+	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UTextBlock> Header;
+	
+	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UTextBlock> Input;
 
 	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UImage> Logo;
+	TObjectPtr<UButton> Yes;
 
 	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UTextBlock> SystemName;
+	TObjectPtr<UButton> Yes_Senter;
 
 	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UTextBlock> Day;
+	TObjectPtr<UButton> No;
 
-	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UButton> Option_Button;
-
-	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UButton> Exit;
-
-	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UUOptionWidget> OptionBox;
-
-	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UUPopUpWidget> PopUp;
-
-
+public:
+	UPROPERTY(BlueprintReadWrite, Category = "UI")
+	OptionType Optiontype;
 public:
 	UFUNCTION()
 	virtual void NativeConstruct() override;
+
 	UFUNCTION()
-	void SetBlind();
+	void SetVIsible(ESlateVisibility Eslatevisibility,int64 EnumNumber);
+
 	UFUNCTION()
-	void SetPopUpWidget_Exit();
+	void Quit();
+
+	UFUNCTION()
+	void Cancle();
 
 };
