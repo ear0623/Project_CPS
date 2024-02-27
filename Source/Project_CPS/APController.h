@@ -26,4 +26,5 @@ private:
 
 public:
 	void InitSetting();
+	void UseingTargetArm();
 };
