@@ -8,6 +8,8 @@
 
 class UCameraComponent;
 class USpringArmComponent;
+class UInputAction;
+class UStaticMeshComponent;
 
 UCLASS()
 class PROJECT_CPS_API APlayerPawn : public APawn
@@ -36,7 +38,24 @@ private:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Component", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<USpringArmComponent> SpringArm;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Component", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UStaticMeshComponent> TargetMesh;
+
+	UPROPERTY(BlueprintReadWrite,EditAnywhere,Category = "Enhaced",meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInputAction> IA_Wheel;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Enhaced", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInputAction> IA_Rotater;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Enhaced", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInputAction> IA_MouseAxisX;
 public:
+	UFUNCTION()
+	void ZoomInOut(const FInputActionValue& Value);
+
+	UFUNCTION()
+	void RotatorValue(const FInputActionValue& Value);
+
 	TObjectPtr<UCameraComponent> GetCamera() const { return Camera; }
 	TObjectPtr<USpringArmComponent> GetSpringArm() const { return SpringArm; }
 

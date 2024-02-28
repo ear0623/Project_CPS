@@ -25,3 +25,9 @@ void UMainWidget::SetPopUpWidget_Exit()
 	OptionBox->SetVisibility(ESlateVisibility::Collapsed);
 	PopUp->SetVIsible(ESlateVisibility::Visible,0);
 }
+
+void UMainWidget::SetDefault()
+{
+	OptionBox->SetVisibility(ESlateVisibility::Collapsed);
+	PopUp->SetVisibility(ESlateVisibility::Collapsed);
+}

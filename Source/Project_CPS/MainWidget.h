@@ -57,4 +57,7 @@ public:
 	UFUNCTION()
 	void SetPopUpWidget_Exit();
 
+	UFUNCTION(BlueprintCallable)
+	void SetDefault();
+
 };

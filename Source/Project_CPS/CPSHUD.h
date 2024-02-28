@@ -32,4 +32,6 @@ private:
 public:
 	UFUNCTION(BlueprintCallable)
 	void GetCurrentDay(UTextBlock* Day);
+
+
 };

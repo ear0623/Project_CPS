@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "APController.generated.h"
 
+class UInputMappingContext;
 
 /**
  * 
@@ -23,8 +24,11 @@ public:
 
 	
 private:
+	UPROPERTY(BlueprintReadWrite,EditAnywhere,Category="Enhanced",meta= (AllowPrivateAccess = "true"))
+	TObjectPtr<UInputMappingContext> MappingContext;
 
 public:
+	UFUNCTION(BlueprintCallable)
 	void InitSetting();
-	void UseingTargetArm();
+
 };

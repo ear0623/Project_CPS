@@ -1,9 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "UBottomBar.h"
+#include "USideFirsetWidget.h"
 
-void UUBottomBar::SettingInitValue()
-{
-	
-}
