@@ -7,7 +7,7 @@
 #include "APController.generated.h"
 
 class UInputMappingContext;
-
+class APlayerPawn;
 /**
  * 
  */
@@ -27,8 +27,27 @@ private:
 	UPROPERTY(BlueprintReadWrite,EditAnywhere,Category="Enhanced",meta= (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputMappingContext> MappingContext;
 
+	UPROPERTY()
+	TObjectPtr<APlayerPawn>MyPlayer;
+
+	FVector Location;
+
+	FTimerHandle TimerHandle;
+	FTimerHandle TimerHandle_Arm;
+
 public:
 	UFUNCTION(BlueprintCallable)
 	void InitSetting();
+
+	void InitSetting_Camera();
+
+	void InitSetting_Camera_Location();
+
+	void InitSetting_SprinArm();
+
+
+	UFUNCTION(BlueprintCallable)
+	bool GetHit();
+
 
 };

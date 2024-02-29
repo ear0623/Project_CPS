@@ -49,6 +49,9 @@ private:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Enhaced", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputAction> IA_MouseAxisX;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Enhaced", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInputAction> IA_Click;
 public:
 	UFUNCTION()
 	void ZoomInOut(const FInputActionValue& Value);
@@ -56,7 +59,11 @@ public:
 	UFUNCTION()
 	void RotatorValue(const FInputActionValue& Value);
 
+	UFUNCTION()
+	void OnClik(const FInputActionValue& Value);
+
 	TObjectPtr<UCameraComponent> GetCamera() const { return Camera; }
 	TObjectPtr<USpringArmComponent> GetSpringArm() const { return SpringArm; }
+	TObjectPtr<UStaticMeshComponent> GetTargetMesh() const { return TargetMesh; }
 
 };

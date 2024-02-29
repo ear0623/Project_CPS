@@ -6,6 +6,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "EnhancedInputComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "APController.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 APlayerPawn::APlayerPawn()
@@ -50,7 +52,7 @@ void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		Enhanced->BindAction(IA_Wheel, ETriggerEvent::Triggered, this, &APlayerPawn::ZoomInOut);
 		Enhanced->BindAction(IA_Rotater, ETriggerEvent::Triggered, this, &APlayerPawn::RotatorValue);
 		Enhanced->BindAction(IA_MouseAxisX, ETriggerEvent::Triggered, this, &APlayerPawn::RotatorValue);
-		
+		Enhanced->BindAction(IA_Click, ETriggerEvent::Started, this, &APlayerPawn::OnClik);
 	}
 
 }
@@ -70,5 +72,19 @@ void APlayerPawn::RotatorValue(const FInputActionValue& Value)
 	FRotator ArmRotatorValue = GetSpringArm()->GetRelativeRotation();
 	ArmRotatorValue.Yaw += (10 * InputValue);
 	GetSpringArm()->SetRelativeRotation(ArmRotatorValue);
+}
+
+void APlayerPawn::OnClik(const FInputActionValue& Value)
+{
+	bool InputValue = Value.Get<bool>();
+	
+	//GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Black, FString::Printf(TEXT("Value : %s"), InputValue ? TEXT("true") : TEXT("false")));
+
+	TObjectPtr<AAPController> AAPcontroller = Cast<AAPController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	if (AAPcontroller)
+	{
+		AAPcontroller->GetHit();
+	}
+
 }
 
