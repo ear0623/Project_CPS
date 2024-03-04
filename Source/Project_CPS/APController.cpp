@@ -8,11 +8,13 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "InputMappingContext.h"
 #include "EnhancedInputSubsystems.h"
+#include "CustomActor.h"
 
 AAPController::AAPController()
 {
 	MappingContext = CreateDefaultSubobject<UInputMappingContext>(TEXT("Mappingcontext"));
 	Location = { 0.0, 0.0, 0.0 };
+	InterSpeed = 0.1f;
 }
 
 void AAPController::BeginPlay()
@@ -36,15 +38,24 @@ void AAPController::InitSetting()
 
 void AAPController::InitSetting_Camera()
 {
-	float InterSpeed = 0.1f;
 	float DeltaTime = FApp::GetDeltaTime();
+	//
 	FRotator CurrentRotator = MyPlayer->GetSpringArm()->GetRelativeRotation();
-	FRotator ObjectRotator = { 0.0f, 0.0f, 0.0f };
+	FRotator CurrentRotator_Sub = MyPlayer->GetSubSpringArm()->GetRelativeRotation();
+	//
+	FRotator ObjectRotator = { 0.0f, 10.0f, 0.0f };
+	FRotator ObjectRotator_Sub = { -50.0f, 10.0f, 0.0f };
+	//
 	FRotator TargetRotator = ObjectRotator;
+	FRotator TargetRotator_Sub = ObjectRotator_Sub;
+	//
 	FRotator InterpRotation = FMath::RInterpTo(CurrentRotator, TargetRotator, DeltaTime, InterSpeed);
+	FRotator InterpRotation_Sub = FMath::RInterpTo(CurrentRotator_Sub, TargetRotator_Sub, DeltaTime, InterSpeed);
+	//
 	MyPlayer->GetSpringArm()->SetWorldRotation(InterpRotation);
-
-	float InterSpeed_Arm = 0.1f;
+	MyPlayer->GetSubSpringArm()->SetWorldRotation(InterpRotation_Sub);
+	//
+	float InterSpeed_Arm = 1.0f;
 	float Currentfloat = MyPlayer->GetSpringArm()->TargetArmLength;
 	float Targetfloat = 300;
 	float Interpfloat = FMath::FInterpTo(Currentfloat, Targetfloat, DeltaTime, InterSpeed_Arm);
@@ -52,7 +63,9 @@ void AAPController::InitSetting_Camera()
 
 	if (FMath::IsNearlyEqual(InterpRotation.Yaw, TargetRotator.Yaw, 1.0f)&& Currentfloat == 300)
 	{
-		MyPlayer->GetSpringArm()->SetWorldRotation(FRotator(0.0f, 0.0f, 0.0f));
+		MyPlayer->GetSpringArm()->SetWorldRotation(FRotator(0.0f, 10.0f, 0.0f));
+		MyPlayer->GetSubSpringArm()->SetWorldRotation(FRotator(0.0f, 10.0f, 0.0f));
+		//
 		MyPlayer->GetSpringArm()->TargetArmLength = 300.0f;
 		GetWorldTimerManager().ClearTimer(TimerHandle);
 	}
@@ -60,14 +73,16 @@ void AAPController::InitSetting_Camera()
 
 void AAPController::InitSetting_Camera_Location()
 {
-	float InterSpeed = 0.1f; 
+	InterSpeed = 0.1f;
 	float DeltaTime = FApp::GetDeltaTime(); 
 	FVector CurrentVector = MyPlayer->GetSpringArm()->GetRelativeLocation(); 
 	FVector TargetVector = Location;
 	FVector InterpVector = FMath::VInterpTo(CurrentVector, TargetVector, DeltaTime, InterSpeed);
 	MyPlayer->GetSpringArm()->SetWorldLocation(InterpVector);
-
-	if (FMath::IsNearlyEqual(CurrentVector.X, TargetVector.X, 1.0f)&&FMath::IsNearlyEqual(CurrentVector.Y, TargetVector.Y, 1.0f)&&FMath::IsNearlyEqual(CurrentVector.Z, TargetVector.Z, 1.0f))
+	//
+	InterSpeed += 0.1f;
+	//
+	if (FMath::IsNearlyEqual(CurrentVector.X, TargetVector.X, 1.0f)&&FMath::IsNearlyEqual(CurrentVector.Y, TargetVector.Y, 1.0f)&&FMath::IsNearlyEqual(CurrentVector.Z, TargetVector.Z, 10.0f))
 	{
 		MyPlayer->GetSpringArm()->SetWorldLocation(TargetVector);
 		GetWorldTimerManager().ClearTimer(TimerHandle);
@@ -76,7 +91,7 @@ void AAPController::InitSetting_Camera_Location()
 
 void AAPController::InitSetting_SprinArm()
 {
-	float InterSpeed = 5.1f;
+	InterSpeed = 0.1f;
 	float DeltaTime = FApp::GetDeltaTime(); 
 	float Currentfloat = MyPlayer->GetSpringArm()->TargetArmLength;
 	float Targetfloat = 300;
@@ -103,6 +118,11 @@ bool AAPController::GetHit()
 			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Black, FString::Printf(TEXT("True")));
 			Location = Hitresult.GetActor()->GetActorLocation()+Hitresult.ImpactNormal*300;
 			FRotator Rotation = Hitresult.GetActor()->GetActorRotation();
+
+			if (Setpos.IsBound())
+			{
+				Setpos.Broadcast();
+			}
 
 			//GetWorldTimerManager().SetTimer(TimerHandle, this, &AAPController::InitSetting_Camera_Location, 0.01f, true);
 		}

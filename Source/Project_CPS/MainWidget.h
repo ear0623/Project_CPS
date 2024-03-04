@@ -12,6 +12,7 @@ class UTextBlock;
 class UButton;
 class UUOptionWidget;
 class UUPopUpWidget;
+class UCameraWidget;
 
 /**
  * 
@@ -48,6 +49,13 @@ private:
 	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UUPopUpWidget> PopUp;
 
+	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UButton> Cmera_Button;
+
+	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UCameraWidget> Camera;
+	
+
 
 public:
 	UFUNCTION()
@@ -60,4 +68,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetDefault();
 
+	UFUNCTION()
+	void SetSub_Camera();
 };

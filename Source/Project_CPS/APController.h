@@ -6,6 +6,8 @@
 #include "GameFramework/PlayerController.h"
 #include "APController.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FSetPostProcessOnOff);
+
 class UInputMappingContext;
 class APlayerPawn;
 /**
@@ -23,6 +25,7 @@ public:
 	virtual void BeginPlay() override;
 
 	
+
 private:
 	UPROPERTY(BlueprintReadWrite,EditAnywhere,Category="Enhanced",meta= (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputMappingContext> MappingContext;
@@ -34,6 +37,9 @@ private:
 
 	FTimerHandle TimerHandle;
 	FTimerHandle TimerHandle_Arm;
+
+public:
+	FSetPostProcessOnOff Setpos;
 
 public:
 	UFUNCTION(BlueprintCallable)
@@ -49,5 +55,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool GetHit();
 
-
+private:
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "InterpSpeed", meta = (AllowPrivateAccess = "true"))
+	float InterSpeed;
 };

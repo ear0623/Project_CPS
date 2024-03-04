@@ -10,6 +10,7 @@ class UCameraComponent;
 class USpringArmComponent;
 class UInputAction;
 class UStaticMeshComponent;
+class USceneCaptureComponent2D;
 
 UCLASS()
 class PROJECT_CPS_API APlayerPawn : public APawn
@@ -36,7 +37,13 @@ private:
 	TObjectPtr<UCameraComponent> Camera;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Component", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<USceneCaptureComponent2D> SceneCapture2D;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Component", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<USpringArmComponent> SpringArm;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Component", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<USpringArmComponent> Sub_SpringArm;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Component", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UStaticMeshComponent> TargetMesh;
@@ -64,6 +71,7 @@ public:
 
 	TObjectPtr<UCameraComponent> GetCamera() const { return Camera; }
 	TObjectPtr<USpringArmComponent> GetSpringArm() const { return SpringArm; }
+	TObjectPtr<USpringArmComponent> GetSubSpringArm() const { return Sub_SpringArm; }
 	TObjectPtr<UStaticMeshComponent> GetTargetMesh() const { return TargetMesh; }
 
 };

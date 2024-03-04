@@ -8,6 +8,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "APController.h"
 #include "Kismet/GameplayStatics.h"
+#include "Components/SceneCaptureComponent2D.h"
 
 // Sets default values
 APlayerPawn::APlayerPawn()
@@ -24,6 +25,11 @@ APlayerPawn::APlayerPawn()
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm);
 
+	Sub_SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("Sub_Springarm"));
+	Sub_SpringArm->SetupAttachment(TargetMesh);
+
+	SceneCapture2D = CreateDefaultSubobject<USceneCaptureComponent2D>(TEXT("Sub_Camera"));
+	SceneCapture2D->SetupAttachment(Sub_SpringArm);
 	
 }
 
@@ -69,9 +75,22 @@ void APlayerPawn::ZoomInOut(const FInputActionValue& Value)
 void APlayerPawn::RotatorValue(const FInputActionValue& Value)
 {
 	float InputValue = Value.Get<float>();
+	if (InputValue > 0.5f && InputValue>0)
+	{
+		InputValue = 0.5;
+	}
+	if (InputValue < -0.5f && InputValue < 0)
+	{
+		InputValue = -0.5;
+	}
 	FRotator ArmRotatorValue = GetSpringArm()->GetRelativeRotation();
+	FRotator ArmRotatorValue_Sub = GetSubSpringArm()->GetRelativeRotation();
+	//
 	ArmRotatorValue.Yaw += (10 * InputValue);
+	ArmRotatorValue_Sub.Yaw += (10 * InputValue);
+	//
 	GetSpringArm()->SetRelativeRotation(ArmRotatorValue);
+	GetSubSpringArm()->SetRelativeRotation(ArmRotatorValue_Sub);
 }
 
 void APlayerPawn::OnClik(const FInputActionValue& Value)
