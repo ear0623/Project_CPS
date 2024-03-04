@@ -25,4 +25,11 @@ void AAStructorActor::Tick(float DeltaTime)
 
 }
 
+void AAStructorActor::SetData()
+{
+	DataTable.Setrowname(DataTable.Getrowname());
+	DataTable.SetSpellName(DataTable.GetSpellName());
+	DataTable.SetDescription(DataTable.GetDescription());
+	DataTable.SetLevel(DataTable.GetLevel());
+}
 

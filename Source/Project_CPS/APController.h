@@ -47,7 +47,7 @@ public:
 
 	void InitSetting_Camera();
 
-	void InitSetting_Camera_Location();
+	void InitSetting_Player_Pos();
 
 	void InitSetting_SprinArm();
 

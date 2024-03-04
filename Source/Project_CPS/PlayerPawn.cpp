@@ -18,6 +18,7 @@ APlayerPawn::APlayerPawn()
 
 	TargetMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Targetmesh"));
 	TargetMesh->SetupAttachment(RootComponent);
+	TargetMesh->SetCollisionProfileName(TEXT("NoCollision"));
 
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("Springarm"));
 	SpringArm->SetupAttachment(TargetMesh);

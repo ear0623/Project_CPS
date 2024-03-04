@@ -11,9 +11,9 @@ struct FSampleStruct : public FTableRowBase
 {
 	GENERATED_BODY()
 
-public:
+
 	FSampleStruct():rowname(1),SpellName(" "), Description(" "), Level(1), isEndItem(0) {}
-	
+protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 	int64 rowname;
@@ -29,6 +29,22 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 	int64 isEndItem;
+
+public:
+	int64 Getrowname() { return rowname; }
+	void Setrowname(int64 row) { rowname = row; }
+	//
+	int64 GetLevel() { return Level; }
+	void SetLevel(int64 level) { Level = level; }
+	//
+	int64 GetisEndItem() { return isEndItem; }
+	void SetisEndItem(int64 isendItem) { isEndItem = isendItem; }
+	//
+	FString GetSpellName() { return SpellName; }
+	void SetSpellName(FString name) { SpellName = name; }
+	//
+	FString GetDescription() { return Description; }
+	void SetDescription(FString Des) { Description = Des; }
 };
 
 UCLASS()
@@ -48,6 +64,18 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+public:
+	
+	FSampleStruct GetDataTable() { return DataTable; }
+
+protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 	FSampleStruct DataTable;
+
+public:
+
+	UFUNCTION(BlueprintCallable)
+	void SetData();
+	
+	
 };

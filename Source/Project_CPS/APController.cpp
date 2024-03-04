@@ -71,20 +71,20 @@ void AAPController::InitSetting_Camera()
 	}
 }
 
-void AAPController::InitSetting_Camera_Location()
+void AAPController::InitSetting_Player_Pos()
 {
 	InterSpeed = 0.1f;
 	float DeltaTime = FApp::GetDeltaTime(); 
-	FVector CurrentVector = MyPlayer->GetSpringArm()->GetRelativeLocation(); 
+	FVector CurrentVector = MyPlayer->GetActorLocation();
 	FVector TargetVector = Location;
 	FVector InterpVector = FMath::VInterpTo(CurrentVector, TargetVector, DeltaTime, InterSpeed);
-	MyPlayer->GetSpringArm()->SetWorldLocation(InterpVector);
+	MyPlayer->SetActorLocation(InterpVector);
 	//
 	InterSpeed += 0.1f;
 	//
 	if (FMath::IsNearlyEqual(CurrentVector.X, TargetVector.X, 1.0f)&&FMath::IsNearlyEqual(CurrentVector.Y, TargetVector.Y, 1.0f)&&FMath::IsNearlyEqual(CurrentVector.Z, TargetVector.Z, 10.0f))
 	{
-		MyPlayer->GetSpringArm()->SetWorldLocation(TargetVector);
+		MyPlayer->SetActorLocation(TargetVector);
 		GetWorldTimerManager().ClearTimer(TimerHandle);
 	}
 }
@@ -116,15 +116,15 @@ bool AAPController::GetHit()
 		if (Hitresult.GetActor()->ActorHasTag(Type))
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Black, FString::Printf(TEXT("True")));
-			Location = Hitresult.GetActor()->GetActorLocation()+Hitresult.ImpactNormal*300;
+			Location = Hitresult.GetActor()->GetActorLocation();
 			FRotator Rotation = Hitresult.GetActor()->GetActorRotation();
-
+			
 			if (Setpos.IsBound())
 			{
 				Setpos.Broadcast();
 			}
 
-			//GetWorldTimerManager().SetTimer(TimerHandle, this, &AAPController::InitSetting_Camera_Location, 0.01f, true);
+			GetWorldTimerManager().SetTimer(TimerHandle, this, &AAPController::InitSetting_Player_Pos, 0.01f, true);
 		}
 	}
 
