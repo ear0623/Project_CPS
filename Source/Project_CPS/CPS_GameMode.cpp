@@ -2,4 +2,13 @@
 
 
 #include "CPS_GameMode.h"
+#include "HTTPObject.h"
 
+void ACPS_GameMode::BeginPlay()
+{
+	Super::BeginPlay();
+
+	DataObject = NewObject<UHTTPObject>(this);
+
+
+}

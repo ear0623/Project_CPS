@@ -24,10 +24,6 @@ void UUListWidget::NativeOnListItemObjectSet(UObject* ListItemObject)
 		AStructor->SetData();
 		Name->SetText(FText::FromString(AStructor->GetDataTable().GetSpellName()));
 	}
-	else
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Black, FString::Printf(TEXT("False")));
-	}
 }
 
 void UUListWidget::NativeOnItemSelectionChanged(bool bIsSelected)

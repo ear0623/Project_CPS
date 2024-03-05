@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "HTTPActor.generated.h"
 
+class UHTTPObject;
+
 UCLASS()
 class PROJECT_CPS_API AHTTPActor : public AActor
 {
@@ -22,5 +24,14 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+private:
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "HTTP", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UHTTPObject> DataObject;
+
+public:
+	UFUNCTION(BlueprintCallable)
+	void SetListVuew(int64 Id, FString DataName, int64 DataValue, int64 VCID, FString VCName, int64 Type);
 
 };

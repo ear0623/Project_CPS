@@ -82,7 +82,7 @@ void AAPController::InitSetting_Player_Pos()
 	//
 	InterSpeed += 0.1f;
 	//
-	if (FMath::IsNearlyEqual(CurrentVector.X, TargetVector.X, 1.0f)&&FMath::IsNearlyEqual(CurrentVector.Y, TargetVector.Y, 1.0f)&&FMath::IsNearlyEqual(CurrentVector.Z, TargetVector.Z, 10.0f))
+	if (FMath::IsNearlyEqual(CurrentVector.X, TargetVector.X, 1.0f)&&FMath::IsNearlyEqual(CurrentVector.Y, TargetVector.Y, 1.0f)&&FMath::IsNearlyEqual(CurrentVector.Z, TargetVector.Z, 100.0f))
 	{
 		MyPlayer->SetActorLocation(TargetVector);
 		GetWorldTimerManager().ClearTimer(TimerHandle);

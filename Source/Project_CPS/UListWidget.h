@@ -32,6 +32,10 @@ private:
 	TObjectPtr<AAStructorActor> AStructor;
 
 public:
+	TObjectPtr<UTextBlock> GetItemName() { return Name; }
+
+	TObjectPtr<UTextBlock> GetCount() { return Count; }
+public:
 	UFUNCTION()
 	virtual void NativeConstruct() override;
 
@@ -39,6 +43,7 @@ public:
 	virtual void NativeOnListItemObjectSet(UObject* ListItemObject) override;
 
 	virtual void NativeOnItemSelectionChanged(bool bIsSelected) override;
+
 
 	
 };

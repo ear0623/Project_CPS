@@ -10,6 +10,8 @@
 class UBorder;
 class UTextBlock;
 class UListView;
+class UHTTPObject;
+class AHTTPActor;
 /**
  * 
  */
@@ -24,7 +26,6 @@ protected:
 	virtual void NativeConstruct() override;
 
 
-
 private:
 	UPROPERTY()
 	TObjectPtr<UBorder> Background;
@@ -35,8 +36,13 @@ private:
 	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UListView> List;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "HTTP", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UHTTPObject> DataObject;
+
+public:
+
 	UFUNCTION(BlueprintCallable)
-	void SetListVuew();
+	void SetListVuew(int64 Id, FString DataName, int64 DataValue, int64 VCID, FString VCName, int64 Type);
 
 
 };
