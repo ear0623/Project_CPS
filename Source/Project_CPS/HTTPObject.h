@@ -14,6 +14,9 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FHttpConnectFinishedDelegate, bool,
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_SixParams(FDeleGetHTTPData, int64, Id, FString, DataName, int64, DataValue, int64, VCID, FString, VCName, int64, Type);
 
 
+class UUSideSecondWidget;
+class ACPSHUD;
+
 USTRUCT(BlueprintType)
 struct FSaveIndexStruct : public FTableRowBase 
 {
@@ -40,6 +43,8 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 	int64 Type;
+
+	TArray<int64> testArray;
 public:
 	int64 GetItemId() { return ItemId; }
 	void SetItemId(int64 itemId) { ItemId = itemId; }
@@ -85,7 +90,7 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FHttpConnectFinishedDelegate OnHttpConnectFinishedCallback;
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void MyHttpCall();
 
 
@@ -122,6 +127,10 @@ private:
 	UPROPERTY(BlueprintReadWrite,EditAnywhere,Category =" Struct", meta = (AllowPrivateAccess = "true"))
 	FSaveIndexStruct SaveObject;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Widget", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UUSideSecondWidget> ListWidgetPtr;
+
+	ACPSHUD* MyHud;
 public:
 
 	FDeleGetHTTPData GetHttpData() { return HttpData;}

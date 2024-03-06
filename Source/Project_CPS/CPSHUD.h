@@ -8,6 +8,8 @@
 
 class UUserWidget;
 class UTextBlock;
+class UMainWidget;
+class UUSideSecondWidget;
 /**
  * 
  */
@@ -22,16 +24,33 @@ class PROJECT_CPS_API ACPSHUD : public AHUD
 private:
 	virtual void BeginPlay() override;
 
-	UPROPERTY(BlueprintReadOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UUserWidget> ClassWidget;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<UUserWidget> ClassOfWidget;
 
+	UUSideSecondWidget* Main;
 
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UUserWidget> ClassSubWidget;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<UUserWidget> ClassOfSubWidget;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UUserWidget> ClassListWidget;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<UUserWidget> ClassOfListWidget;
 public:
 	UFUNCTION(BlueprintCallable)
 	void GetCurrentDay(UTextBlock* Day);
 
+	UFUNCTION(BlueprintCallable)
+	UUserWidget* GetClassWidget() const;
+
+	UFUNCTION(BlueprintCallable)
+	void ConnectTest(int64 idnumber, FString datanamestring, int64 datavalueNumber, int64 vcidNumber, FString vcnameNumber, int64 typeNumber);
 
 };

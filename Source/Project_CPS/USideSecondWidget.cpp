@@ -18,28 +18,25 @@ void UUSideSecondWidget::NativeConstruct()
 	Background = Cast<UBorder>(GetWidgetFromName(TEXT("Background")));
 	Text = Cast<UTextBlock>(GetWidgetFromName(TEXT("Text")));
 
-	
-
-}
-
-
-void UUSideSecondWidget::SetListVuew(int64 Id, FString DataName, int64 DataValue, int64 VCID, FString VCName, int64 Type)
-{
-	
-	if(List->GetEntryWidgetClass())
+	if (ClassOfWidget != NULL)
 	{
-		UUListWidget* SaveWidget = CreateWidget<UUListWidget>(this, List->GetEntryWidgetClass());
-		if (SaveWidget)
-		{
-			SaveWidget->GetItemName()->SetText(FText::FromString(DataName));
-			List->AddItem(SaveWidget);
-			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, DataName);
-		}
-		else
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, DataName);
-		}
+		AddChildWidget = Cast<UUListWidget>(ClassOfWidget);
+		AddChildWidget = CreateWidget(this, ClassOfWidget);
+		
+		//ListAdd = dynamic_cast<UUListWidget*>(AddChildWidget);
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, DataName);
+	ID = 0;
+	DataName =" ";
+	DataValue = 0;
+	VCID = 0;
+	VCName = " ";
+	Type = 0;
 }
 
+
+void UUSideSecondWidget::SetListView(int64 idmumber, FString datanamestring, int64 datavalueNumber, int64 vcidNumber, FString vcnameNumber, int64 typeNumber, UUListWidget ClassListWidget)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("ConnectSetList")));
+	DataName = datanamestring;
+	List->AddItem()
+}

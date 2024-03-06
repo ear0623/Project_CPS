@@ -20,6 +20,6 @@ public:
 
 private:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "HTTP", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UHTTPObject> DataObject;
+	TObjectPtr<UObject> DataObject;
 	
 };

@@ -31,10 +31,18 @@ private:
 	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<AAStructorActor> AStructor;
 
-public:
-	TObjectPtr<UTextBlock> GetItemName() { return Name; }
+	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (AllowPrivateAccess = "true"))
+	FText ListName;
 
-	TObjectPtr<UTextBlock> GetCount() { return Count; }
+public:
+	TObjectPtr<UTextBlock> GetItemName() { return Name.Get(); }
+
+	void SetItemName();
+
+	FText GetListName() { return ListName; }
+	void SetListName(FText name) { ListName = name; }
+
+	TObjectPtr<UTextBlock> GetCount() { return Count.Get(); }
 public:
 	UFUNCTION()
 	virtual void NativeConstruct() override;

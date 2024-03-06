@@ -7,6 +7,10 @@
 #include "Components/TextBlock.h"
 #include "Components/Button.h"
 
+void UUListWidget::SetItemName()
+{
+}
+
 void UUListWidget::NativeConstruct()
 {
 	Super::NativeConstruct();

@@ -2,12 +2,16 @@
 
 
 #include "HTTPObject.h"
+#include "CPSHUD.h"
+#include "Kismet/GameplayStatics.h"
+#include "USideSecondWidget.h"
 
 
 
 UHTTPObject::UHTTPObject()
 {
 	HttpModule = &FHttpModule::Get();
+	
 }
 
 UHTTPObject::UHTTPObject(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
@@ -16,7 +20,7 @@ UHTTPObject::UHTTPObject(const FObjectInitializer& ObjectInitializer) : Super(Ob
 }
 void UHTTPObject::ExcuteHttp(FString Get_SourceURL, FString Path_1, FString Path_2, FString Get_Name)
 {
-
+	MyHttpCall();
 	this->SourceURL = Get_SourceURL; // 3ㅣ=..ㄴㅇㄹ
 	this->Path = "/api/vcmdata"; // api/vcmdata/getdata/5
 	this->Path2 = Path_1;
@@ -34,7 +38,15 @@ void UHTTPObject::ExcuteHttp(FString Get_SourceURL, FString Path_1, FString Path
 
 void UHTTPObject::MyHttpCall()
 {
-
+	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	if (PlayerController)
+	{
+		AHUD* Hud = PlayerController->GetHUD();
+		if (Hud)
+		{
+			MyHud = dynamic_cast<ACPSHUD*>(Hud);
+		}
+	}
 }
 
 void UHTTPObject::HttpRequestProgressDelegate(FHttpRequestPtr RequestPtr, int32 SendBytes, int32 RevBytes)
@@ -83,6 +95,7 @@ void UHTTPObject::HttpRequsetFinishedDelegate(FHttpRequestPtr Request, FHttpResp
 	{
 		TArray<TSharedPtr<FJsonValue> > DataArray = JsonObject->GetArrayField("data"); // 데이터 필드값 (어레이) 가져오기 -> 각 원소(오브젝트) 를 파싱할 예정
 		for (auto data : DataArray)
+
 		{
 			FJsonSerializer::Deserialize(Reader, data); // 아이템 오브젝트 파싱하기
 			SaveObject.SetItemId(data->AsObject()->GetIntegerField("itemId"));
@@ -93,11 +106,16 @@ void UHTTPObject::HttpRequsetFinishedDelegate(FHttpRequestPtr Request, FHttpResp
 			SaveObject.SETType(data->AsObject()->GetIntegerField("type"));
 			// 각 필드값 가져오기
 			// 가져온 값 조작
-			HttpData.Broadcast(SaveObject.GetItemId(), SaveObject.GetItemName(), SaveObject.GetDataValue(), SaveObject.GetVcID(), SaveObject.GetVcName(), SaveObject.GetType()); 
+			//HttpData.Broadcast(SaveObject.GetItemId(), SaveObject.GetItemName(), SaveObject.GetDataValue(), SaveObject.GetVcID(), SaveObject.GetVcName(), SaveObject.GetType()); 
+			if (MyHud)
+			{
+				MyHud->ConnectTest(SaveObject.GetItemId(), SaveObject.GetItemName(), SaveObject.GetDataValue(), SaveObject.GetVcID(), SaveObject.GetVcName(), SaveObject.GetType());
+			}
+			
 		}
 		bool login = JsonObject->GetBoolField("login");
 		//이 클래스에서 선언하고 블루프린트에서 구현된 함수 호출
-	
+		
 	
 	}
 }
