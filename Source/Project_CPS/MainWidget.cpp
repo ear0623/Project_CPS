@@ -44,3 +44,9 @@ void UMainWidget::SetSub_Camera()
 	PopUp->SetVisibility(ESlateVisibility::Collapsed);
 	Camera->Setvisible();
 }
+
+UUSideSecondWidget* UMainWidget::GetWBP_USideSecondWidget() const
+{
+	return WBP_USideSecondWidget;
+}
+

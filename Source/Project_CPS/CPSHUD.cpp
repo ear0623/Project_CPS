@@ -26,25 +26,13 @@ void ACPSHUD::BeginPlay()
 		ClassWidget = CreateWidget(GetWorld(), ClassOfWidget);
 		ClassWidget->AddToViewport();
 	}
-	if (ClassOfSubWidget != NULL)
-	{
-		ClassSubWidget = Cast<UUserWidget>(ClassOfSubWidget);
-		ClassSubWidget = CreateWidget(GetWorld(), ClassOfSubWidget);
-	}
-	if (ClassOfListWidget != NULL)
-	{
-		ClassListWidget = Cast<UUserWidget>(ClassOfListWidget);
-		ClassListWidget = CreateWidget(GetWorld(), ClassOfListWidget);
-		
-	}
-	Main = Cast<UUSideSecondWidget>(ClassSubWidget);
+
+	MainWidget = Cast<UMainWidget>(ClassWidget);
 }
 
 void ACPSHUD::GetCurrentDay(UTextBlock* Day)
 {
 	FDateTime CurrentDateTime = FDateTime::Now();
-
-	
 	FString Date = CurrentDateTime.ToString(TEXT("%m/%d/%Y"));
 	FString DayOfWeek = CurrentDateTime.ToString(TEXT("%A"));
 	FString Time = CurrentDateTime.ToString(TEXT("%H:%M"));
@@ -53,7 +41,6 @@ void ACPSHUD::GetCurrentDay(UTextBlock* Day)
 	{
 		FString Day_Local =  Date + "  " + DayOfWeek + "  " + Time;
 		Day->SetText(FText::FromString(Day_Local));
-		
 	}
 	
 }
@@ -65,11 +52,10 @@ UUserWidget* ACPSHUD::GetClassWidget() const
 
 void ACPSHUD::ConnectTest(int64 idnumber, FString datanamestring, int64 datavalueNumber, int64 vcidNumber, FString vcnameNumber, int64 typeNumber)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("Connecttest")));
-	if (Main)
-	{
-		Main->SetListView(idnumber, datanamestring, datavalueNumber, vcidNumber, vcnameNumber, typeNumber, ClassListWidget);
-		
+	if (MainWidget)
+	{	
+
+		MainWidget->GetWBP_USideSecondWidget()->SetListView(idnumber, datanamestring, datavalueNumber, vcidNumber, vcnameNumber, typeNumber);
 	}
 }
 

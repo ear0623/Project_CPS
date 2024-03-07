@@ -34,13 +34,16 @@ private:
 	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (AllowPrivateAccess = "true"))
 	FText ListName;
 
+	UPROPERTY(BlueprintReadWrite,EditAnywhere, Category = "UI", meta = (AllowPrivateAccess = "true"))
+	TArray<FString> ItemName; 
+
 public:
 	TObjectPtr<UTextBlock> GetItemName() { return Name.Get(); }
 
 	void SetItemName();
 
 	FText GetListName() { return ListName; }
-	void SetListName(FText name) { ListName = name; }
+	void SetListName(TArray<FString> Itemname);
 
 	TObjectPtr<UTextBlock> GetCount() { return Count.Get(); }
 public:
@@ -52,6 +55,8 @@ public:
 
 	virtual void NativeOnItemSelectionChanged(bool bIsSelected) override;
 
+	void UpdateListName(FText name);
 
+	
 	
 };

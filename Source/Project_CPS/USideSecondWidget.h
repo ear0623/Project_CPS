@@ -42,10 +42,12 @@ private:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "HTTP", meta = (AllowPrivateAccess = "true"))
 	UUserWidget* AddChildWidget;
 
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "UI", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<UUserWidget> ClassOfWidget;
 
 	UUListWidget* ListAdd;
+
+	//TSharedPtr UUListWidget* ListAdd;
 
 private:
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
@@ -61,13 +63,18 @@ private:
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
 	int64 Type;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "HTTP", meta = (AllowPrivateAccess = "true"))
+	TArray<FString> ItemName;
 
 public:
 
 	UFUNCTION(BlueprintCallable)
-	void SetListView(int64 idmumber, FString datanamestring, int64 datavalueNumber, int64 vcidNumber, FString vcnameNumber, int64 typeNumber,UUListWidget ClassListWidget);
+	void SetListView(int64 idmumber, FString datanamestring, int64 datavalueNumber, int64 vcidNumber, FString vcnameNumber, int64 typeNumber);
 
 
 	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UListView> List;
+
+	UFUNCTION(BlueprintCallable)
+	TArray<FString> GetItemNameArray() { return ItemName; }
 };

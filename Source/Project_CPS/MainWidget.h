@@ -13,6 +13,7 @@ class UButton;
 class UUOptionWidget;
 class UUPopUpWidget;
 class UCameraWidget;
+class UUSideSecondWidget;
 
 /**
  * 
@@ -55,7 +56,8 @@ private:
 	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UCameraWidget> Camera;
 	
-
+	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UUSideSecondWidget> WBP_USideSecondWidget;
 
 public:
 	UFUNCTION()
@@ -70,4 +72,8 @@ public:
 
 	UFUNCTION()
 	void SetSub_Camera();
+
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	UUSideSecondWidget* GetWBP_USideSecondWidget() const;
+
 };

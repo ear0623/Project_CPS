@@ -11,27 +11,59 @@ void UUListWidget::SetItemName()
 {
 }
 
+void UUListWidget::SetListName(TArray<FString> Itemname)
+{
+	//ListName = ItemName.begin();
+	//Name->SetText(ListName);
+	//GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red,ListName.ToString());
+	ItemName = Itemname;
+}
+
 void UUListWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
+	Name->SetText(ListName);
+	if (ItemName.Num() > 0)
+	{
+		ListName = FText::FromString(ItemName[1]);
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("True")));
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("False")));
+	}
+	
+	ListName = FText::FromString("InCode ");	
 
-	AStructor = NewObject<AAStructorActor>();
 }
 
 void UUListWidget::NativeOnListItemObjectSet(UObject* ListItemObject)
 {
 	IUserObjectListEntry::NativeOnListItemObjectSet(ListItemObject);
+	Name->SetText(ListName);
+	GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, ListName.ToString());
 	
-	TObjectPtr<UUListWidget> ListItem = Cast<UUListWidget>(ListItemObject);
-	if (ListItem != nullptr&&AStructor != nullptr)
-	{
-		AStructor->SetData();
-		Name->SetText(FText::FromString(AStructor->GetDataTable().GetSpellName()));
-	}
 }
 
 void UUListWidget::NativeOnItemSelectionChanged(bool bIsSelected)
 {
+
+}
+
+void UUListWidget::UpdateListName(FText name)
+{
+	//ItemName.Add(name);
+	//SetListName(ItemName);
+	if (ItemName.Num() > 0)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("ItemName contains %d elements"), ItemName.Num()));
+		// 다른 처리를 수행하거나 ItemName 배열의 요소를 출력하려면 여기에 추가합니다.
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, TEXT("ItemName is empty"));
+	}
+	ListName = name;
 }
 
 

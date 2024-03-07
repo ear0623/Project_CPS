@@ -10,6 +10,7 @@ class UUserWidget;
 class UTextBlock;
 class UMainWidget;
 class UUSideSecondWidget;
+class UUListWidget;
 /**
  * 
  */
@@ -30,19 +31,8 @@ private:
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<UUserWidget> ClassOfWidget;
 
-	UUSideSecondWidget* Main;
+	UMainWidget* MainWidget;
 
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UUserWidget> ClassSubWidget;
-
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
-	TSubclassOf<UUserWidget> ClassOfSubWidget;
-
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UUserWidget> ClassListWidget;
-
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
-	TSubclassOf<UUserWidget> ClassOfListWidget;
 public:
 	UFUNCTION(BlueprintCallable)
 	void GetCurrentDay(UTextBlock* Day);
