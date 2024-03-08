@@ -18,13 +18,27 @@ void UUSideSecondWidget::NativeConstruct()
 	Background = Cast<UBorder>(GetWidgetFromName(TEXT("Background")));
 	Text = Cast<UTextBlock>(GetWidgetFromName(TEXT("Text")));
 
+	
 	if (List->GetEntryWidgetClass() != NULL)
 	{
+		AddChildWidget = NewObject<UUListWidget>(this, List->GetEntryWidgetClass());
+		/*AddChildWidget = Cast<UUListWidget>(List->GetEntryWidgetClass());*/
+		
+		ListAdd = dynamic_cast<UUListWidget*>(AddChildWidget);
+		
+		for (const auto& Items : ItemName)
+		{
+			AddChildWidget = CreateWidget(this, List->GetEntryWidgetClass()); 
+			ListAdd->SetName(FText::FromString(Items));
+			List->AddItem(ListAdd);
+			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, Items);
+			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("XXTTXX")));
+		}
 
-			/*AddChildWidget = Cast<UUListWidget>(List->GetEntryWidgetClass());
-			AddChildWidget = CreateWidget(this, List->GetEntryWidgetClass());
-			ListAdd = dynamic_cast<UUListWidget*>(AddChildWidget);
-			List->AddItem(ListAdd);*/
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("TTXXTT")));
 	}
 	ID = 0;
 	DataName =" ";
@@ -32,25 +46,13 @@ void UUSideSecondWidget::NativeConstruct()
 	VCID = 0;
 	VCName = " ";
 	Type = 0;
-
-	
 }
 
 
-void UUSideSecondWidget::SetListView(int64 idmumber, FString datanamestring, int64 datavalueNumber, int64 vcidNumber, FString vcnameNumber, int64 typeNumber)
+void UUSideSecondWidget::SetListView(int64 idnumber, FString datanamestring, int64 datavalueNumber, int64 vcidNumber, FString vcnameNumber, int64 typeNumber)
 {
 	DataName = datanamestring;
 
-	//ListAdd->SetItemName();
-	
-	AddChildWidget = Cast<UUListWidget>(List->GetEntryWidgetClass());
-	AddChildWidget = CreateWidget(this, List->GetEntryWidgetClass());
-	ListAdd = dynamic_cast<UUListWidget*>(AddChildWidget);
-	ItemName.Add(datanamestring);
-	ListAdd->SetListName(ItemName);
-	//List->SetListItems(ItemName);
-	//ListAdd->UpdateListName(FText::FromString(DataName));
-	List->AddItem(ListAdd);
-	
-	
+	ListAdd->SetListView_ListWidget(idnumber, datanamestring, datavalueNumber, vcidNumber, vcnameNumber, typeNumber);
+
 }

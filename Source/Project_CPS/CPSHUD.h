@@ -33,6 +33,9 @@ private:
 
 	UMainWidget* MainWidget;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "HTTP", meta = (AllowPrivateAccess = "true"))
+	TArray<FString> ItemName;
+
 public:
 	UFUNCTION(BlueprintCallable)
 	void GetCurrentDay(UTextBlock* Day);

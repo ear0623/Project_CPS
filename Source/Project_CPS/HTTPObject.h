@@ -16,6 +16,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_SixParams(FDeleGetHTTPData, int64, Id, FStrin
 
 class UUSideSecondWidget;
 class ACPSHUD;
+class FJsonObject;
 
 USTRUCT(BlueprintType)
 struct FSaveIndexStruct : public FTableRowBase 
@@ -23,7 +24,7 @@ struct FSaveIndexStruct : public FTableRowBase
 	GENERATED_BODY()
 
 
-	FSaveIndexStruct() :ItemId(1), ItemName(" "), DataValue(1), VcID(1), VcName(" "), Type(1) {}
+	FSaveIndexStruct() :ItemId(1), ItemName(" "), DataValue(1), VcID(1), VcName(" "), Type(1),LoopCount(0) {}
 protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
@@ -44,6 +45,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 	int64 Type;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	int64 LoopCount;
+
 	TArray<int64> testArray;
 public:
 	int64 GetItemId() { return ItemId; }
@@ -63,6 +67,9 @@ public:
 	//
 	int64 GetType() { return Type; }
 	void SETType(int64 type) { Type = type; }
+
+	int64 GetLoopcount() { return LoopCount; }
+	void SetLoopcount(int64 loopcount) { LoopCount = loopcount; }
 };
 
 /**
@@ -130,7 +137,12 @@ private:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Widget", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UUSideSecondWidget> ListWidgetPtr;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Widget", meta = (AllowPrivateAccess = "true"))
+	
+
 	ACPSHUD* MyHud;
+
+	int Count = 0;
 public:
 
 	FDeleGetHTTPData GetHttpData() { return HttpData;}

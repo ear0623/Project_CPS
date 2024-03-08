@@ -69,7 +69,7 @@ private:
 public:
 
 	UFUNCTION(BlueprintCallable)
-	void SetListView(int64 idmumber, FString datanamestring, int64 datavalueNumber, int64 vcidNumber, FString vcnameNumber, int64 typeNumber);
+	void SetListView(int64 idnumber, FString datanamestring, int64 datavalueNumber, int64 vcidNumber, FString vcnameNumber, int64 typeNumber);
 
 
 	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
@@ -77,4 +77,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	TArray<FString> GetItemNameArray() { return ItemName; }
+
+	UUserWidget* GetAddChildWidget() {return AddChildWidget;}
+
+	TObjectPtr<UListView> GetList() { return List; }
 };

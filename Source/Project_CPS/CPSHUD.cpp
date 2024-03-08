@@ -12,6 +12,7 @@
 
 
 
+
 ACPSHUD::ACPSHUD()
 {
 
@@ -52,9 +53,9 @@ UUserWidget* ACPSHUD::GetClassWidget() const
 
 void ACPSHUD::ConnectTest(int64 idnumber, FString datanamestring, int64 datavalueNumber, int64 vcidNumber, FString vcnameNumber, int64 typeNumber)
 {
+	ItemName.Add(datanamestring);
 	if (MainWidget)
 	{	
-
 		MainWidget->GetWBP_USideSecondWidget()->SetListView(idnumber, datanamestring, datavalueNumber, vcidNumber, vcnameNumber, typeNumber);
 	}
 }

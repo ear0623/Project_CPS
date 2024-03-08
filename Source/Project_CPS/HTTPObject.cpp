@@ -8,6 +8,7 @@
 
 
 
+
 UHTTPObject::UHTTPObject()
 {
 	HttpModule = &FHttpModule::Get();
@@ -84,8 +85,9 @@ void UHTTPObject::HttpRequsetFinishedDelegate(FHttpRequestPtr Request, FHttpResp
 
 	}
 	OnHttpConnectFinishedCallback.Broadcast(bWasSuccessful, FileSavePath);*/
+	TSharedPtr<FJsonObject> JsonObject;
 	//Create a pointer to hold the json serialized data
-	TSharedPtr<FJsonObject> JsonObject; // int, string, array, object, ...
+	// int, string, array, object, ...
 
 	//Create a reader pointer to read the json data
 	TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(Respones->GetContentAsString());
@@ -104,9 +106,12 @@ void UHTTPObject::HttpRequsetFinishedDelegate(FHttpRequestPtr Request, FHttpResp
 			SaveObject.SETVcID(data->AsObject()->GetIntegerField("vcId"));
 			SaveObject.SetVcName(data->AsObject()->GetStringField("vcName"));
 			SaveObject.SETType(data->AsObject()->GetIntegerField("type"));
+			Count += 1;
+			SaveObject.SetLoopcount(Count);
+			GEngine->AddOnScreenDebugMessage(-1, 5.0, FColor::Emerald, FString::Printf(TEXT("%d"), Count));
 			// 각 필드값 가져오기
 			// 가져온 값 조작
-			//HttpData.Broadcast(SaveObject.GetItemId(), SaveObject.GetItemName(), SaveObject.GetDataValue(), SaveObject.GetVcID(), SaveObject.GetVcName(), SaveObject.GetType()); 
+			HttpData.Broadcast(SaveObject.GetItemId(), SaveObject.GetItemName(), SaveObject.GetDataValue(), SaveObject.GetVcID(), SaveObject.GetVcName(), SaveObject.GetType()); 
 			if (MyHud)
 			{
 				MyHud->ConnectTest(SaveObject.GetItemId(), SaveObject.GetItemName(), SaveObject.GetDataValue(), SaveObject.GetVcID(), SaveObject.GetVcName(), SaveObject.GetType());

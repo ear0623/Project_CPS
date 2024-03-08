@@ -35,17 +35,18 @@ private:
 	FText ListName;
 
 	UPROPERTY(BlueprintReadWrite,EditAnywhere, Category = "UI", meta = (AllowPrivateAccess = "true"))
-	TArray<FString> ItemName; 
+	TArray<FString> ItemName_ListWidget; 
 
 public:
 	TObjectPtr<UTextBlock> GetItemName() { return Name.Get(); }
 
-	void SetItemName();
+	void SetName(FText Listname);
 
 	FText GetListName() { return ListName; }
 	void SetListName(TArray<FString> Itemname);
 
 	TObjectPtr<UTextBlock> GetCount() { return Count.Get(); }
+
 public:
 	UFUNCTION()
 	virtual void NativeConstruct() override;
@@ -57,6 +58,6 @@ public:
 
 	void UpdateListName(FText name);
 
-	
-	
+	UFUNCTION(BlueprintCallable)
+	void SetListView_ListWidget(int64 idmumber, FString datanamestring, int64 datavalueNumber, int64 vcidNumber, FString vcnameNumber, int64 typeNumber);
 };
