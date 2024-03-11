@@ -9,6 +9,7 @@
 #include "Components/ListView.h"
 #include "UListWidget.h"
 #include "HTTPActor.h"
+#include "GameFramework/Actor.h"
 
 
 void UUSideSecondWidget::NativeConstruct()
@@ -18,27 +19,18 @@ void UUSideSecondWidget::NativeConstruct()
 	Background = Cast<UBorder>(GetWidgetFromName(TEXT("Background")));
 	Text = Cast<UTextBlock>(GetWidgetFromName(TEXT("Text")));
 
-	
+	AddChildWidget = NewObject<UUListWidget>(this, List->GetEntryWidgetClass());
+	ListAdd = dynamic_cast<UUListWidget*>(AddChildWidget);
 	if (List->GetEntryWidgetClass() != NULL)
 	{
 		AddChildWidget = NewObject<UUListWidget>(this, List->GetEntryWidgetClass());
-		/*AddChildWidget = Cast<UUListWidget>(List->GetEntryWidgetClass());*/
-		
-		ListAdd = dynamic_cast<UUListWidget*>(AddChildWidget);
-		
-		for (const auto& Items : ItemName)
-		{
-			AddChildWidget = CreateWidget(this, List->GetEntryWidgetClass()); 
-			ListAdd->SetName(FText::FromString(Items));
-			List->AddItem(ListAdd);
-			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, Items);
-			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("XXTTXX")));
-		}
-
 	}
-	else
+
+	UHTTPObject* Object = NewObject<UHTTPObject>();
+	if (Object)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("TTXXTT")));
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Black, FString::Printf(TEXT("FunctionName : Object")));
+		Object->GetJSonCallBack().AddDynamic(this, &UUSideSecondWidget::SaveArrayStart);
 	}
 	ID = 0;
 	DataName =" ";
@@ -55,4 +47,29 @@ void UUSideSecondWidget::SetListView(int64 idnumber, FString datanamestring, int
 
 	ListAdd->SetListView_ListWidget(idnumber, datanamestring, datavalueNumber, vcidNumber, vcnameNumber, typeNumber);
 
+	ItemName.Add(datanamestring);
+
+	if (List->GetEntryWidgetClass() != NULL)
+	{
+		AddChildWidget = NewObject<UUListWidget>(this, List->GetEntryWidgetClass());
+
+		ListAdd = dynamic_cast<UUListWidget*>(AddChildWidget);
+
+		for (const auto& Items : ItemName)
+		{
+			AddChildWidget = CreateWidget(this, List->GetEntryWidgetClass());
+			ListAdd->SetName(FText::FromString(Items));
+			List->AddItem(ListAdd);
+		}
+		//ListAdd->SetListName(ItemName);
+	}
+
+}
+
+void UUSideSecondWidget::SaveArrayStart(FStructArray Callbackstruct)
+{
+	/*for (auto Data : Callbackstruct.JsonData)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Black, FString::Printf(TEXT("FunctionName : Object : %s"),Data));
+	}*/
 }

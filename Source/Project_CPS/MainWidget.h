@@ -14,6 +14,7 @@ class UUOptionWidget;
 class UUPopUpWidget;
 class UCameraWidget;
 class UUSideSecondWidget;
+class UUSideFirsetWidget;
 
 /**
  * 
@@ -59,6 +60,9 @@ private:
 	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UUSideSecondWidget> WBP_USideSecondWidget;
 
+	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UUSideFirsetWidget> WBP_USideFirsetWidget;
+
 public:
 	UFUNCTION()
 	virtual void NativeConstruct() override;
@@ -75,5 +79,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	UUSideSecondWidget* GetWBP_USideSecondWidget() const;
+
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	UUSideFirsetWidget* GetWBP_USideFirstWidget() const;
 
 };

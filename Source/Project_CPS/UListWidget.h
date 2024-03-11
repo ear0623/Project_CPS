@@ -60,4 +60,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetListView_ListWidget(int64 idmumber, FString datanamestring, int64 datavalueNumber, int64 vcidNumber, FString vcnameNumber, int64 typeNumber);
+
+	void UpdateLsit();
 };

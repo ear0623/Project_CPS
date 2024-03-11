@@ -9,6 +9,7 @@
 #include "InputMappingContext.h"
 #include "EnhancedInputSubsystems.h"
 #include "CustomActor.h"
+#include "HTTPObject.h"
 
 AAPController::AAPController()
 {
@@ -26,6 +27,11 @@ void AAPController::BeginPlay()
 		LocalPlayersubSystem->AddMappingContext(MappingContext, 0);
 	}
 	MyPlayer = Cast<APlayerPawn>(this->GetPawn());
+
+	//UHTTPObject* UhttObject = NewObject<UHTTPObject>();
+	//if(uhttp)
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.0, FColor::Emerald, FString::Printf(TEXT("Here is APCController BeginPlay")));
 }
 
 void AAPController::InitSetting()

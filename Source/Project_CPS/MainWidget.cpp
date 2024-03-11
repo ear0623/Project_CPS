@@ -50,3 +50,8 @@ UUSideSecondWidget* UMainWidget::GetWBP_USideSecondWidget() const
 	return WBP_USideSecondWidget;
 }
 
+UUSideFirsetWidget* UMainWidget::GetWBP_USideFirstWidget() const
+{
+	return  WBP_USideFirsetWidget;
+}
+

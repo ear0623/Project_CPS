@@ -12,6 +12,8 @@ class UListView;
 class UHTTPObject;
 class AHTTPActor;
 class UUListWidget;
+class UHTTPObject;
+struct FStructArray;
 /**
  * 
  */
@@ -47,7 +49,8 @@ private:
 
 	UUListWidget* ListAdd;
 
-	//TSharedPtr UUListWidget* ListAdd;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "HTTP", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UHTTPObject> HttpObject;
 
 private:
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
@@ -66,6 +69,8 @@ private:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "HTTP", meta = (AllowPrivateAccess = "true"))
 	TArray<FString> ItemName;
 
+	FTimerHandle ArrayHandle;
+
 public:
 
 	UFUNCTION(BlueprintCallable)
@@ -81,4 +86,6 @@ public:
 	UUserWidget* GetAddChildWidget() {return AddChildWidget;}
 
 	TObjectPtr<UListView> GetList() { return List; }
+
+	void SaveArrayStart(FStructArray Callbackstruct);
 };

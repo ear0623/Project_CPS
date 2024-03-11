@@ -7,8 +7,16 @@
 #include "Runtime/Online/HTTP/Public/Http.h"
 #include "HTTPObject.generated.h"
 
+USTRUCT(BlueprintType)
+struct FStructArray
+{
+	GENERATED_BODY();
+
+	TArray<FJsonStruct> JsonData;
+};
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FHttpConnectStartDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDele_JSonCallBack,FStructArray,Callbackstruct);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FHttpConnectProcessDelegate, int32, RecvSize, int32, TotalSize, float, Percent); 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FHttpConnectFinishedDelegate, bool, bIsSuccess, FString, ContentPath);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_SixParams(FDeleGetHTTPData, int64, Id, FString, DataName, int64, DataValue, int64, VCID, FString, VCName, int64, Type);
@@ -17,6 +25,25 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_SixParams(FDeleGetHTTPData, int64, Id, FStrin
 class UUSideSecondWidget;
 class ACPSHUD;
 class FJsonObject;
+
+USTRUCT(BlueprintType)
+struct FJsonStruct
+{
+	GENERATED_BODY();
+
+	int32 node_id = 0;
+	FString node_name = "";
+	int32 parent_id = 0;
+	FString type = " ";
+	TArray<TSharedPtr<FJsonValue>> ChildArray;
+	int32 Total = 0;
+
+};
+
+
+
+
+
 
 USTRUCT(BlueprintType)
 struct FSaveIndexStruct : public FTableRowBase 
@@ -97,6 +124,9 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FHttpConnectFinishedDelegate OnHttpConnectFinishedCallback;
 
+	UPROPERTY(BlueprintAssignable)
+	FDele_JSonCallBack JSonCallBack;
+
 	UFUNCTION(BlueprintCallable)
 	void MyHttpCall();
 
@@ -134,23 +164,27 @@ private:
 	UPROPERTY(BlueprintReadWrite,EditAnywhere,Category =" Struct", meta = (AllowPrivateAccess = "true"))
 	FSaveIndexStruct SaveObject;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = " Struct", meta = (AllowPrivateAccess = "true"))
+	FStructArray StructArray_Json;
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Widget", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UUSideSecondWidget> ListWidgetPtr;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Widget", meta = (AllowPrivateAccess = "true"))
-	
-
 	ACPSHUD* MyHud;
 
-	int Count = 0;
+	//UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = " Struct", meta = (AllowPrivateAccess = "true"))
+	//TArray<UObject>ObjectArray;
+
+	int64 Count = 0;
 public:
 
 	FDeleGetHTTPData GetHttpData() { return HttpData;}
 
-
 	FSaveIndexStruct GetSaveObject() { return SaveObject; }
 
-public:
+	FStructArray GetStructArray() { return StructArray_Json; }
 
+	FDele_JSonCallBack GetJSonCallBack() { return JSonCallBack; }
 	//
 };

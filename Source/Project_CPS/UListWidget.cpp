@@ -11,6 +11,12 @@
 void UUListWidget::SetName(FText Listname)
 {
 	ListName = Listname;
+	ItemName_ListWidget.Add(ListName.ToString());
+	/*GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Black, FString::Printf(TEXT("FunctionName = SetName")));
+	for (const auto& Items : ItemName_ListWidget)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, Items);
+	}*/
 }
 
 void UUListWidget::SetListName(TArray<FString> Itemname)
@@ -30,8 +36,10 @@ void UUListWidget::NativeOnListItemObjectSet(UObject* ListItemObject)
 	UUListWidget* ListWidget = Cast<UUListWidget>(ListItemObject);
 	if (ListWidget)
 	{
-		Name->SetText(ListName);
+		//GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Black, FString::Printf(TEXT("FunctionName = NativeOnListitemobject")));
+		UpdateLsit();
 	}
+	
 }
 
 void UUListWidget::NativeOnItemSelectionChanged(bool bIsSelected)
@@ -47,6 +55,19 @@ void UUListWidget::UpdateListName(FText name)
 void UUListWidget::SetListView_ListWidget(int64 idmumber, FString datanamestring, int64 datavalueNumber, int64 vcidNumber, FString vcnameNumber, int64 typeNumber)
 {
 	ItemName_ListWidget.Add(datanamestring);
+	for (const auto& Items : ItemName_ListWidget)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, Items);
+	}
+}
+
+void UUListWidget::UpdateLsit()
+{
+	for (const auto& Items : ItemName_ListWidget)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, Items);
+		Name->SetText(ListName);
+	}
 }
 
 

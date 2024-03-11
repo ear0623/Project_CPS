@@ -8,6 +8,7 @@
 #include "Blueprint/UserWidget.h"
 #include "MainWidget.h"
 #include "USideSecondWidget.h"
+#include "USideFirsetWidget.h"
 #include "Components/ListView.h"
 
 
@@ -57,6 +58,7 @@ void ACPSHUD::ConnectTest(int64 idnumber, FString datanamestring, int64 datavalu
 	if (MainWidget)
 	{	
 		MainWidget->GetWBP_USideSecondWidget()->SetListView(idnumber, datanamestring, datavalueNumber, vcidNumber, vcnameNumber, typeNumber);
+		MainWidget->GetWBP_USideFirstWidget()->SetListView(idnumber, datanamestring, datavalueNumber, vcidNumber, vcnameNumber, typeNumber);
 	}
 }
 

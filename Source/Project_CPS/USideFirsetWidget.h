@@ -7,6 +7,7 @@
 #include "USideFirsetWidget.generated.h"
 
 class UTreeView;
+class UUListWidget;
 /**
  * 
  */
@@ -24,7 +25,20 @@ private:
 	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UTreeView> TreeViewEquip;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "HTTP", meta = (AllowPrivateAccess = "true"))
+	UUserWidget* AddChildWidget;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "HTTP", meta = (AllowPrivateAccess = "true"))
+	TArray<FString> ItemName;
+
+	UUListWidget* ListAdd;
+
 public:
 	UFUNCTION()
 	void OnGetItemChildren(UObject* pltem, TArray<UObject*>& AChildren);
+
+	UFUNCTION(BlueprintCallable)
+	void SetListView(int64 idnumber, FString datanamestring, int64 datavalueNumber, int64 vcidNumber, FString vcnameNumber, int64 typeNumber);
+
+	void SaveArrayStart();
 };

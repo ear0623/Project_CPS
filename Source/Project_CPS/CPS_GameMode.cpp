@@ -10,5 +10,5 @@ void ACPS_GameMode::BeginPlay()
 
 	DataObject = NewObject<UHTTPObject>(this);
 
-
+	GEngine->AddOnScreenDebugMessage(-1, 5.0, FColor::Emerald, FString::Printf(TEXT("Here is CPS_GameMode")));
 }
