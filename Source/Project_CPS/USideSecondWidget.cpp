@@ -72,4 +72,5 @@ void UUSideSecondWidget::SaveArrayStart(FStructArray Callbackstruct)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Black, FString::Printf(TEXT("FunctionName : Object : %s"),Data));
 	}*/
+	GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Black, FString::Printf(TEXT("FunctionName : SaveArrayStart")));
 }

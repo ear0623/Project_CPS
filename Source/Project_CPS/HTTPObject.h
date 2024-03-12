@@ -8,11 +8,107 @@
 #include "HTTPObject.generated.h"
 
 USTRUCT(BlueprintType)
+struct FJsonThirdChildStruct
+{
+	GENERATED_BODY();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	int32 node_id = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	FString node_name = "";
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	int32 parent_id = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	FString type = " ";
+
+};
+USTRUCT(BlueprintType)
+struct FJsonSecondChildStruct
+{
+	GENERATED_BODY();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	int32 node_id = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	FString node_name = "";
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	int32 parent_id = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	FString type = " ";
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	TArray<FJsonThirdChildStruct> JsonThirdChildData;
+};
+
+USTRUCT(BlueprintType)
+struct FJsonFirstChildStruct
+{
+	GENERATED_BODY();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	int32 node_id = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	FString node_name = "";
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	int32 parent_id = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	FString type = " ";
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	TArray<FJsonSecondChildStruct> JsonSecondChildData;
+};
+
+USTRUCT(BlueprintType)
+struct FJsonStruct
+{
+	GENERATED_BODY();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	int32 node_id = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	FString node_name = "";
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	int32 parent_id = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	FString type = " ";
+
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	//TArray<TSharedPtr<FJsonValue>> ChildArray;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	int32 Total = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	TArray<FJsonFirstChildStruct> JsonFirstChildData;
+
+};
+
+
+USTRUCT(BlueprintType)
 struct FStructArray
 {
 	GENERATED_BODY();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 	TArray<FJsonStruct> JsonData;
+
+	//TArray<TSharedPtr<FJsonValue>> GetChild;
+
+public:
+	//TArray<TSharedPtr<FJsonValue>> SetChild(TArray<TSharedPtr<FJsonValue>> Child) { return  GetChild = Child; }
 };
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FHttpConnectStartDelegate);
@@ -25,24 +121,6 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_SixParams(FDeleGetHTTPData, int64, Id, FStrin
 class UUSideSecondWidget;
 class ACPSHUD;
 class FJsonObject;
-
-USTRUCT(BlueprintType)
-struct FJsonStruct
-{
-	GENERATED_BODY();
-
-	int32 node_id = 0;
-	FString node_name = "";
-	int32 parent_id = 0;
-	FString type = " ";
-	TArray<TSharedPtr<FJsonValue>> ChildArray;
-	int32 Total = 0;
-
-};
-
-
-
-
 
 
 USTRUCT(BlueprintType)
@@ -185,6 +263,9 @@ public:
 
 	FStructArray GetStructArray() { return StructArray_Json; }
 
+	UFUNCTION()
 	FDele_JSonCallBack GetJSonCallBack() { return JSonCallBack; }
 	//
+
+	void Tempsave();
 };

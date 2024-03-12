@@ -87,5 +87,6 @@ public:
 
 	TObjectPtr<UListView> GetList() { return List; }
 
+	UFUNCTION()
 	void SaveArrayStart(FStructArray Callbackstruct);
 };

@@ -101,33 +101,151 @@ void UHTTPObject::HttpRequsetFinishedDelegate(FHttpRequestPtr Request, FHttpResp
 			// jsonObject 검사
 			if (JsonObject.IsValid())
 			{
+				if (JsonObject->TryGetNumberField(TEXT("node_id"), resultInt))
+				{
+					CallbackStruct.JsonData[i].node_id = resultInt;
+				}
 				// TryGetStringField : Json의 String 변수 검사
 				if (JsonObject->TryGetStringField(TEXT("node_name"), result))
 				{
 					CallbackStruct.JsonData[i].node_name = result;
+					GEngine->AddOnScreenDebugMessage(-1, 5.0, FColor::Emerald,result);
 				}
 
 				// TryGetStringField : Json의 int/float와 같은 number 변수 검사
 				if (JsonObject->TryGetNumberField(TEXT("Total"), resultInt))
 				{
 					CallbackStruct.JsonData[i].Total = resultInt;
+					//GEngine->AddOnScreenDebugMessage(-1, 5.0, FColor::Emerald, FString::Printf(TEXT("%d"), resultInt));
 				}
 				//
 				if (JsonObject->TryGetNumberField(TEXT("parent_id"), resultInt))
 				{
 					CallbackStruct.JsonData[i].parent_id = resultInt;
+					//GEngine->AddOnScreenDebugMessage(-1, 5.0, FColor::Emerald, FString::Printf(TEXT("%d"), resultInt));
 				}
 				if (JsonObject->TryGetStringField(TEXT("Type"), result))
 				{
 					CallbackStruct.JsonData[i].type = result;
+					//GEngine->AddOnScreenDebugMessage(-1, 5.0, FColor::Emerald, result);
 				}
-				JsonObject->GetArrayField(TEXT(" ChildArray"));
+				TArray<TSharedPtr<FJsonValue>> TempChildArray = JsonObject->GetArrayField(TEXT("Child"));
+				if (TempChildArray.Num() <= 0)
+				{
+					continue;
+				}
+
+
+				// 부모 어레이파싱하듯, 자식 어레이도 파싱 -> ChildStruct 의 어레이로 반환.
+				TArray<FJsonFirstChildStruct> TempParsedChildArray;
+				FJsonFirstChildStruct TempChild;
+				//
+				
+
+				//
+				for (int j = 0; j < TempChildArray.Num(); j++)
+				{
+					
+					TSharedPtr<FJsonValue>& JsonChildValue = TempChildArray[j];
+					// jsonValue to jsonObject
+					if (JsonChildValue.IsValid() && JsonChildValue->Type == EJson::Object)
+					{
+						const TSharedPtr<FJsonObject>& JsonChildObject = JsonChildValue->AsObject();
+						if (JsonChildValue.IsValid() && JsonChildValue->Type == EJson::Object)
+						{
+							// jsonObject 검사
+							if (JsonChildObject.IsValid())
+							{
+								if (JsonObject->TryGetNumberField(TEXT("node_id"), resultInt))
+								{
+									TempChild.node_id = resultInt;
+								}
+								// TryGetStringField : Json의 String 변수 검사
+								if (JsonChildObject->TryGetStringField(TEXT("node_name"), result))
+								{
+									TempChild.node_name = result;
+									GEngine->AddOnScreenDebugMessage(-1, 5.0, FColor::Red, result);
+								}
+								//
+								if (JsonChildObject->TryGetNumberField(TEXT("parent_id"), resultInt))
+								{
+									TempChild.parent_id = resultInt;
+								}
+								if (JsonChildObject->TryGetStringField(TEXT("Type"), result))
+								{
+									TempChild.type = result;
+								}
+
+								TArray<TSharedPtr<FJsonValue>> TempChildSecondArray = JsonObject->GetArrayField(TEXT("Child"));
+								if (TempChildSecondArray.Num() <= 0)
+								{
+									continue;
+								}
+								
+								TempParsedChildArray.Add(TempChild);
+
+								TArray<FJsonSecondChildStruct> TempSecondChildArray;
+								FJsonSecondChildStruct TempSecondChild;
+						
+								for (int k = 0; k < TempChildSecondArray.Num(); k++)
+								{
+									TSharedPtr<FJsonValue>& JsonSecondChildValue = TempChildSecondArray[j];
+									// jsonValue to jsonObject
+									if (JsonSecondChildValue.IsValid() && JsonSecondChildValue->Type == EJson::Object)
+									{
+										const TSharedPtr<FJsonObject>& JsonSecondChildObject = JsonSecondChildValue->AsObject();
+										if (JsonSecondChildObject.IsValid() && JsonSecondChildValue->Type == EJson::Object)
+										{
+											// jsonObject 검사
+											if (JsonSecondChildObject.IsValid())
+											{
+												if (JsonSecondChildObject->TryGetNumberField(TEXT("node_id"), resultInt))
+												{
+													TempSecondChild.node_id = resultInt;
+												}
+												// TryGetStringField : Json의 String 변수 검사
+								//				if (JsonSecondChildObject->TryGetStringField(TEXT("node_name"), result))
+								//				{
+								//					TempSecondChild.node_name = result;
+								//					GEngine->AddOnScreenDebugMessage(-1, 5.0, FColor::Blue, result);
+								//				}
+								//				//
+								//				if (JsonSecondChildObject->TryGetNumberField(TEXT("parent_id"), resultInt))
+								//				{
+								//					TempSecondChild.parent_id = resultInt;
+								//				}
+								//				if (JsonSecondChildObject->TryGetStringField(TEXT("Type"), result))
+								//				{
+								//					TempSecondChild.type = result;
+								//				}
+								//				TArray<FJsonThirdChildStruct> JsonThirdChildArray;
+												TempSecondChildArray.Add(TempSecondChild);
+											}
+										}
+									}
+									
+								}
+								CallbackStruct.JsonData[i].JsonFirstChildData[j].JsonSecondChildData = TempSecondChildArray;
+								
+							}
+							
+						}
+					}
+				}
+				CallbackStruct.JsonData[i].JsonFirstChildData = TempParsedChildArray;
 			}
 		}
-
+		Count += 1;
+		SaveObject.SetLoopcount(Count);
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0, FColor::Emerald, FString::Printf(TEXT("%d"), Count));
 		// 파싱 데이터 사용 (해당 함수에서는 델리게이트 사용, 다른 방식으로 사용 가능)
 		JSonCallBack.Broadcast(CallbackStruct);
+		
 	}
+}
+
+void UHTTPObject::Tempsave()
+{
 
 	/*FString BasePath = FPaths::ConvertRelativePathToFull(FPaths::GameAgnosticSavedDir()) + Path;
 	FString FileSavePath = BasePath + Name;
@@ -156,7 +274,7 @@ void UHTTPObject::HttpRequsetFinishedDelegate(FHttpRequestPtr Request, FHttpResp
 	}
 	OnHttpConnectFinishedCallback.Broadcast(bWasSuccessful, FileSavePath);*/
 	TSharedPtr<FJsonObject>  JsonObject;
-	
+
 	//Create a pointer to hold the json serialized data
 	// int, string, array, object, ...
 
@@ -164,33 +282,33 @@ void UHTTPObject::HttpRequsetFinishedDelegate(FHttpRequestPtr Request, FHttpResp
 	//TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(Response->GetContentAsString());
 
 	//Deserialize the json data given Reader and the actual object to deserialize
-	if (FJsonSerializer::Deserialize(Reader, JsonObject)) // 전체 오브젝트 파싱하기
-	{
-		TArray<TSharedPtr<FJsonValue> > DataArray = JsonObject->GetArrayField("data"); // 데이터 필드값 (어레이) 가져오기 -> 각 원소(오브젝트) 를 파싱할 예정
-		for (auto data : DataArray)
-		{
-			FJsonSerializer::Deserialize(Reader, data); // 아이템 오브젝트 파싱하기
-			SaveObject.SetItemId(data->AsObject()->GetIntegerField("node_id"));
-			SaveObject.SetItemName(data->AsObject()->GetStringField("dataName"));
-			SaveObject.SETDataValue(data->AsObject()->GetIntegerField("dataValue"));
-			SaveObject.SETVcID(data->AsObject()->GetIntegerField("vcId"));
-			SaveObject.SetVcName(data->AsObject()->GetStringField("vcName"));
-			SaveObject.SETType(data->AsObject()->GetIntegerField("type"));
-			Count += 1;
-			SaveObject.SetLoopcount(Count);
-			GEngine->AddOnScreenDebugMessage(-1, 5.0, FColor::Emerald, FString::Printf(TEXT("%d"), Count));
-			// 각 필드값 가져오기
-			// 가져온 값 조작
-			HttpData.Broadcast(SaveObject.GetItemId(), SaveObject.GetItemName(), SaveObject.GetDataValue(), SaveObject.GetVcID(), SaveObject.GetVcName(), SaveObject.GetType()); 
-			if (MyHud)
-			{
-				MyHud->ConnectTest(SaveObject.GetItemId(), SaveObject.GetItemName(), SaveObject.GetDataValue(), SaveObject.GetVcID(), SaveObject.GetVcName(), SaveObject.GetType());
-			}
-			
-		}
+	//if (FJsonSerializer::Deserialize(Reader, JsonObject)) // 전체 오브젝트 파싱하기
+	//{
+	//	TArray<TSharedPtr<FJsonValue> > DataArray = JsonObject->GetArrayField("data"); // 데이터 필드값 (어레이) 가져오기 -> 각 원소(오브젝트) 를 파싱할 예정
+	//	for (auto data : DataArray)
+	//	{
+	//		FJsonSerializer::Deserialize(Reader, data); // 아이템 오브젝트 파싱하기
+	//		SaveObject.SetItemId(data->AsObject()->GetIntegerField("node_id"));
+	//		SaveObject.SetItemName(data->AsObject()->GetStringField("dataName"));
+	//		SaveObject.SETDataValue(data->AsObject()->GetIntegerField("dataValue"));
+	//		SaveObject.SETVcID(data->AsObject()->GetIntegerField("vcId"));
+	//		SaveObject.SetVcName(data->AsObject()->GetStringField("vcName"));
+	//		SaveObject.SETType(data->AsObject()->GetIntegerField("type"));
+	//		Count += 1;
+	//		SaveObject.SetLoopcount(Count);
+	//		GEngine->AddOnScreenDebugMessage(-1, 5.0, FColor::Emerald, FString::Printf(TEXT("%d"), Count));
+	//		// 각 필드값 가져오기
+	//		// 가져온 값 조작
+	//		HttpData.Broadcast(SaveObject.GetItemId(), SaveObject.GetItemName(), SaveObject.GetDataValue(), SaveObject.GetVcID(), SaveObject.GetVcName(), SaveObject.GetType());
+	//		if (MyHud)
+	//		{
+	//			MyHud->ConnectTest(SaveObject.GetItemId(), SaveObject.GetItemName(), SaveObject.GetDataValue(), SaveObject.GetVcID(), SaveObject.GetVcName(), SaveObject.GetType());
+	//		}
+
+	//	}
 		bool login = JsonObject->GetBoolField("login");
 		//이 클래스에서 선언하고 블루프린트에서 구현된 함수 호출
-	}
+	//}
 }
 
 
