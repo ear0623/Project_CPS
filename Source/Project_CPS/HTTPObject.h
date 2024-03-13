@@ -121,6 +121,10 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_SixParams(FDeleGetHTTPData, int64, Id, FStrin
 class UUSideSecondWidget;
 class ACPSHUD;
 class FJsonObject;
+class FJsonValue;
+struct FStructArray;
+class FJsonObject;
+struct FJsonFirstStruct;
 
 
 USTRUCT(BlueprintType)
@@ -268,4 +272,15 @@ public:
 	//
 
 	void Tempsave();
+
+
+	void ParseParent(const TSharedPtr<FJsonObject>& JsonObject, FStructArray& CallbackStruct);
+
+	void ParseZeroChild(const TSharedPtr<FJsonObject>& JsonObject, FJsonStruct& ZeroChild);
+
+	void ParseFirstChild(const TSharedPtr<FJsonObject>& JsonObject, FJsonFirstChildStruct& FirstChild);
+
+	void ParseSecondChild(const TSharedPtr<FJsonObject>& JsonObject, FJsonSecondChildStruct& SecondChild);
+	
+	
 };

@@ -62,4 +62,9 @@ public:
 	void SetListView_ListWidget(int64 idmumber, FString datanamestring, int64 datavalueNumber, int64 vcidNumber, FString vcnameNumber, int64 typeNumber);
 
 	void UpdateLsit();
+
+	UFUNCTION(BlueprintNativeEvent)
+	void NativeEventTest(int64 number, bool value, const FString& string);
+	void NativeEventTest_Implementation(int64 number, bool value, const FString& string);
+
 };

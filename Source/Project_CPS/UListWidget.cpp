@@ -71,3 +71,8 @@ void UUListWidget::UpdateLsit()
 }
 
 
+void UUListWidget::NativeEventTest_Implementation(int64 number, bool value, const FString& string)
+{
+}
+
+

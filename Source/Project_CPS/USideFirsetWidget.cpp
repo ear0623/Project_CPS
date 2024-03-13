@@ -34,9 +34,9 @@ void UUSideFirsetWidget::SetListView(int64 idnumber, FString datanamestring, int
 
 		for (const auto& Items : ItemName)
 		{
-			AddChildWidget = CreateWidget(this, TreeViewEquip->GetEntryWidgetClass());
+			/*AddChildWidget = CreateWidget(this, TreeViewEquip->GetEntryWidgetClass());
 			ListAdd->SetName(FText::FromString(Items));
-			TreeViewEquip->AddItem(ListAdd);
+			TreeViewEquip->AddItem(ListAdd);*/
 		}
 	}
 
