@@ -10,6 +10,7 @@
 #include "UListWidget.h"
 #include "HTTPActor.h"
 #include "GameFramework/Actor.h"
+#include "Components/TreeView.h"
 
 
 void UUSideSecondWidget::NativeConstruct()
@@ -57,9 +58,9 @@ void UUSideSecondWidget::SetListView(int64 idnumber, FString datanamestring, int
 
 		for (const auto& Items : ItemName)
 		{
-			AddChildWidget = CreateWidget(this, List->GetEntryWidgetClass());
+			/*AddChildWidget = CreateWidget(this, List->GetEntryWidgetClass());
 			ListAdd->SetName(FText::FromString(Items));
-			List->AddItem(ListAdd);
+			List->AddItem(ListAdd);*/
 		}
 		//ListAdd->SetListName(ItemName);
 	}
@@ -73,4 +74,8 @@ void UUSideSecondWidget::SaveArrayStart(FStructArray Callbackstruct)
 		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Black, FString::Printf(TEXT("FunctionName : Object : %s"),Data));
 	}*/
 	GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Black, FString::Printf(TEXT("FunctionName : SaveArrayStart")));
+}
+
+void UUSideSecondWidget::OnGetItemChildren(UObject* pltem, TArray<UObject*>& AChildren)
+{
 }

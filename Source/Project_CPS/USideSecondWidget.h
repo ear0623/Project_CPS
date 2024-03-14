@@ -14,6 +14,7 @@ class AHTTPActor;
 class UUListWidget;
 class UHTTPObject;
 struct FStructArray;
+class UTreeView;
 /**
  * 
  */
@@ -78,15 +79,18 @@ public:
 
 
 	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget), meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UListView> List;
+	TObjectPtr<UTreeView>  List;
 
 	UFUNCTION(BlueprintCallable)
 	TArray<FString> GetItemNameArray() { return ItemName; }
 
 	UUserWidget* GetAddChildWidget() {return AddChildWidget;}
 
-	TObjectPtr<UListView> GetList() { return List; }
+	TObjectPtr<UTreeView> GetList() { return List; }
 
 	UFUNCTION()
 	void SaveArrayStart(FStructArray Callbackstruct);
+
+	UFUNCTION()
+	void OnGetItemChildren(UObject* pltem, TArray<UObject*>& AChildren);
 };

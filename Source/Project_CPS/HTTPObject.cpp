@@ -29,6 +29,17 @@ void UHTTPObject::ExcuteHttp(FString Get_SourceURL, FString Path_1, FString Path
 	this->Name = Get_Name;
 	FString URL;
 	URL = SourceURL+Path2+Path3+Path4;
+	//
+	if (Path_1 + Path2 == Path)
+	{
+		//차이점 향후 if문으로 추가 가능;
+		APIENum = SettingAPI::Type01;
+	}
+	else
+	{
+		APIENum = SettingAPI::None; 
+	}
+	//
 	TSharedPtr<IHttpRequest> HttpRequest = HttpModule->CreateRequest();
 	HttpRequest->SetVerb("GET");
 	HttpRequest->SetURL(URL);
@@ -102,175 +113,20 @@ void UHTTPObject::HttpRequsetFinishedDelegate(FHttpRequestPtr Request, FHttpResp
 			// jsonObject 검사
 			if (JsonObject.IsValid())
 			{
-				ParseParent(JsonObject, CallbackStruct);
-			//	if (JsonObject->TryGetNumberField(TEXT("node_id"), resultInt))
-			//	{
-			//		CallbackStruct.JsonData[i].node_id = resultInt;
-			//	}
-			//	// TryGetStringField : Json의 String 변수 검사
-			//	if (JsonObject->TryGetStringField(TEXT("node_name"), result))
-			//	{
-			//		CallbackStruct.JsonData[i].node_name = result;
-			//		//GEngine->AddOnScreenDebugMessage(-1, 5.0, FColor::Emerald,result);
-			//	}
-
-			//	// TryGetStringField : Json의 int/float와 같은 number 변수 검사
-			//	if (JsonObject->TryGetNumberField(TEXT("Total"), resultInt))
-			//	{
-			//		CallbackStruct.JsonData[i].Total = resultInt;
-			//		//GEngine->AddOnScreenDebugMessage(-1, 5.0, FColor::Emerald, FString::Printf(TEXT("%d"), resultInt));
-			//	}
-			//	//
-			//	if (JsonObject->TryGetNumberField(TEXT("parent_id"), resultInt))
-			//	{
-			//		CallbackStruct.JsonData[i].parent_id = resultInt;
-			//		//GEngine->AddOnScreenDebugMessage(-1, 5.0, FColor::Emerald, FString::Printf(TEXT("%d"), resultInt));
-			//	}
-			//	if (JsonObject->TryGetStringField(TEXT("Type"), result))
-			//	{
-			//		CallbackStruct.JsonData[i].type = result;
-			//		//GEngine->AddOnScreenDebugMessage(-1, 5.0, FColor::Emerald, result);
-			//	}
-			//	TArray<TSharedPtr<FJsonValue>> TempChildArray = JsonObject->GetArrayField(TEXT("Child"));
-			//	if (TempChildArray.Num() <= 0)
-			//	{
-			//		continue;
-			//	}
-
-
-			//	// 부모 어레이파싱하듯, 자식 어레이도 파싱 -> ChildStruct 의 어레이로 반환.
-			//	TArray<FJsonFirstChildStruct> TempParsedChildArray;
-			//	FJsonFirstChildStruct TempChild;
-			//	//
-			//	
-
-			//	//
-			//	for (int j = 0; j < TempChildArray.Num(); j++)
-			//	{
-			//		
-			//		TSharedPtr<FJsonValue>& JsonChildValue = TempChildArray[j];
-			//		// jsonValue to jsonObject
-			//		if (JsonChildValue.IsValid() && JsonChildValue->Type == EJson::Object)
-			//		{
-			//			const TSharedPtr<FJsonObject>& JsonChildObject = JsonChildValue->AsObject();
-			//			if (JsonChildValue.IsValid() && JsonChildValue->Type == EJson::Object)
-			//			{
-			//				// jsonObject 검사
-			//				if (JsonChildObject.IsValid())
-			//				{
-			//					if (JsonChildObject->TryGetNumberField(TEXT("node_id"), resultInt))
-			//					{
-			//						TempChild.node_id = resultInt;
-			//					}
-			//					// TryGetStringField : Json의 String 변수 검사
-			//					if (JsonChildObject->TryGetStringField(TEXT("node_name"), result))
-			//					{
-			//						TempChild.node_name = result;
-			//						GEngine->AddOnScreenDebugMessage(-1, 5.0, FColor::Red, result);
-			//					}
-			//					//
-			//					if (JsonChildObject->TryGetNumberField(TEXT("parent_id"), resultInt))
-			//					{
-			//						TempChild.parent_id = resultInt;
-			//					}
-			//					if (JsonChildObject->TryGetStringField(TEXT("Type"), result))
-			//					{
-			//						TempChild.type = result;
-			//					}
-
-			//					TArray<TSharedPtr<FJsonValue>> TempChildSecondArray = JsonObject->GetArrayField(TEXT("Child"));
-			//					if (TempChildSecondArray.Num() <= 0)
-			//					{
-			//						continue;
-			//					}
-
-			//					TempParsedChildArray.Add(TempChild); 
-			//					// grand children
-		
-
-			//					for (int k = 0; k < TempChildSecondArray.Num(); k++)
-			//					{
-			//						TSharedPtr<FJsonValue>& JsonGrandChildValue = TempChildSecondArray[j];
-			//						if (JsonGrandChildValue.IsValid() && JsonGrandChildValue->Type == EJson::Object)
-			//						{
-			//							const TSharedPtr<FJsonObject>& JsonGrandChildObject = JsonGrandChildValue->AsObject();
-			//							if (JsonGrandChildValue.IsValid() && JsonGrandChildValue->Type == EJson::Object)
-			//							{
-			//								if (JsonGrandChildObject.IsValid())
-			//								{
-			//									if (JsonGrandChildObject->TryGetNumberField(TEXT("node_id"), resultInt))
-			//									{
-			//											TempGrandChild.node_id = resultInt;
-			//									}
-			//									// TryGetStringField : Json의 String 변수 검사													
-			//									if (JsonGrandChildObject->TryGetStringField(TEXT("node_name"), result))
-			//									{
-			//										TempGrandChild.node_name = result;
-			//										GEngine->AddOnScreenDebugMessage(-1, 5.0, FColor::Black, result);
-			//									}
-			//									if (JsonGrandChildObject->TryGetNumberField(TEXT("parent_id"), resultInt))
-			//										{
-			//											TempGrandChild.parent_id = resultInt;
-			//										}
-			//									if (JsonGrandChildObject->TryGetStringField(TEXT("Type"), result))
-			//										{
-			//											TempGrandChild.type = result;
-			//										}
-			//									TempSaveSecondChildArray.Add(TempGrandChild);
-
-			//									TArray<TSharedPtr<FJsonValue>> TempChildThirdArray = JsonObject->GetArrayField(TEXT("Child"));
-			//									if (TempChildSecondArray.Num() <= 0)
-			//									{
-			//										continue;
-			//									}
-			//									for (int l = 0; l < TempChildThirdArray.Num(); l++)
-			//									{
-			//										TSharedPtr<FJsonValue>& JsonGrandGrandChildValue = TempChildThirdArray[j];
-			//										if (JsonGrandGrandChildValue.IsValid() && JsonGrandGrandChildValue->Type == EJson::Object)
-			//										{
-			//											const TSharedPtr<FJsonObject>& JsonGrandGrandChildObject = JsonGrandGrandChildValue->AsObject();
-			//											if (JsonGrandGrandChildValue.IsValid() && JsonGrandGrandChildValue->Type == EJson::Object)
-			//											{
-			//												if (JsonGrandGrandChildObject.IsValid())
-			//												{
-			//													if (JsonGrandGrandChildObject->TryGetNumberField(TEXT("node_id"), resultInt))
-			//													{
-			//														TempGrandGrandChild.node_id = resultInt;
-			//													}
-			//													// TryGetStringField : Json의 String 변수 검사													
-			//													if (JsonGrandGrandChildObject->TryGetStringField(TEXT("node_name"), result))
-			//													{
-			//														TempGrandGrandChild.node_name = result;
-			//														GEngine->AddOnScreenDebugMessage(-1, 5.0, FColor::Cyan, result);
-			//													}
-			//													if (JsonGrandGrandChildObject->TryGetNumberField(TEXT("parent_id"), resultInt))
-			//													{
-			//														TempGrandGrandChild.parent_id = resultInt;
-			//													}
-			//													if (JsonGrandGrandChildObject->TryGetStringField(TEXT("Type"), result))
-			//													{
-			//														TempGrandGrandChild.type = result;
-			//													}
-			//													TempSaveThirdChildArray.Add(TempGrandGrandChild);
-			//												}
-			//											}
-			//										}
-			//									}
-			//							
-
-			//								}
-			//							}
-			//						}
-			//						TempSaveSecondChildArray[k].JsonThirdChildData = TempSaveThirdChildArray;
-			//					}
-			//							
-			//				}
-			//			}
-			//		}
-			//		TempParsedChildArray[j].JsonSecondChildData = TempSaveSecondChildArray;
-			//	}
-			//	//CallbackStruct.JsonData[i].JsonFirstChildData = TempParsedChildArray;
-			//	CallbackStruct.JsonData[i].JsonFirstChildData = TempParsedChildArray;
+				switch (APIENum)
+				{
+				case SettingAPI::None:
+					ParseParent(JsonObject, CallbackStruct);
+					break;
+				case SettingAPI::Type01:
+					ParseParent_Type01(JsonObject, CallbackStruct);
+					break;
+				case SettingAPI::Type02:
+					break;
+				default:
+					break;
+				}
+				
 			}
 		}
 		Count += 1;
@@ -285,68 +141,14 @@ void UHTTPObject::HttpRequsetFinishedDelegate(FHttpRequestPtr Request, FHttpResp
 void UHTTPObject::Tempsave()
 {
 
-	/*FString BasePath = FPaths::ConvertRelativePathToFull(FPaths::GameAgnosticSavedDir()) + Path;
-	FString FileSavePath = BasePath + Name;
-	if (Respones.IsValid() && EHttpResponseCodes::IsOk(Respones->GetResponseCode()))
-	{
-		IPlatformFile& PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
-		PlatformFile.CreateDirectoryTree(*BasePath);
-		IFileHandle* FileHandler = PlatformFile.OpenWrite(*FileSavePath);
-		if (FileHandler)
-		{
-			FileHandler->Write(Respones->GetContent().GetData(), Respones->GetContentLength());
-			FileHandler->Flush();
-
-			delete FileHandler;
-			bWasSuccessful = true;
-		}
-		else
-		{
-			bWasSuccessful = false;
-		}
-	}
-	else
-	{
-		bWasSuccessful = false;
-
-	}
-	OnHttpConnectFinishedCallback.Broadcast(bWasSuccessful, FileSavePath);*/
+	
 	TSharedPtr<FJsonObject>  JsonObject;
 
-	//Create a pointer to hold the json serialized data
-	// int, string, array, object, ...
 
-	//Create a reader pointer to read the json data
-	//TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(Response->GetContentAsString());
 
-	//Deserialize the json data given Reader and the actual object to deserialize
-	//if (FJsonSerializer::Deserialize(Reader, JsonObject)) // 전체 오브젝트 파싱하기
-	//{
-	//	TArray<TSharedPtr<FJsonValue> > DataArray = JsonObject->GetArrayField("data"); // 데이터 필드값 (어레이) 가져오기 -> 각 원소(오브젝트) 를 파싱할 예정
-	//	for (auto data : DataArray)
-	//	{
-	//		FJsonSerializer::Deserialize(Reader, data); // 아이템 오브젝트 파싱하기
-	//		SaveObject.SetItemId(data->AsObject()->GetIntegerField("node_id"));
-	//		SaveObject.SetItemName(data->AsObject()->GetStringField("dataName"));
-	//		SaveObject.SETDataValue(data->AsObject()->GetIntegerField("dataValue"));
-	//		SaveObject.SETVcID(data->AsObject()->GetIntegerField("vcId"));
-	//		SaveObject.SetVcName(data->AsObject()->GetStringField("vcName"));
-	//		SaveObject.SETType(data->AsObject()->GetIntegerField("type"));
-	//		Count += 1;
-	//		SaveObject.SetLoopcount(Count);
-	//		GEngine->AddOnScreenDebugMessage(-1, 5.0, FColor::Emerald, FString::Printf(TEXT("%d"), Count));
-	//		// 각 필드값 가져오기
-	//		// 가져온 값 조작
-	//		HttpData.Broadcast(SaveObject.GetItemId(), SaveObject.GetItemName(), SaveObject.GetDataValue(), SaveObject.GetVcID(), SaveObject.GetVcName(), SaveObject.GetType());
-	//		if (MyHud)
-	//		{
-	//			MyHud->ConnectTest(SaveObject.GetItemId(), SaveObject.GetItemName(), SaveObject.GetDataValue(), SaveObject.GetVcID(), SaveObject.GetVcName(), SaveObject.GetType());
-	//		}
-
-	//	}
-		bool login = JsonObject->GetBoolField("login");
-		//이 클래스에서 선언하고 블루프린트에서 구현된 함수 호출
-	//}
+	bool login = JsonObject->GetBoolField("login");
+	
+	
 }
 
 
@@ -459,7 +261,6 @@ void UHTTPObject::ParseFirstChild(const TSharedPtr<FJsonObject>& JsonObject, FJs
 	FirstChild.JsonSecondChildData.Add(SeoncdChild);
 }
 
-
 void UHTTPObject::ParseSecondChild(const TSharedPtr<FJsonObject>& JsonObject, FJsonSecondChildStruct& SecondChild)
 {
 	FString result;
@@ -480,5 +281,35 @@ void UHTTPObject::ParseSecondChild(const TSharedPtr<FJsonObject>& JsonObject, FJ
 		ThridChild.type = result;
 
 	SecondChild.JsonThirdChildData.Add(ThridChild);
+}
+
+void UHTTPObject::ParseParent_Type01(const TSharedPtr<FJsonObject>& JsonObject, FStructArray& CallbackStruct)
+{
+	FString result;
+	int resultInt;
+
+	FJsonType01Struct Parents;
+
+
+	if (JsonObject->TryGetNumberField(TEXT("itemId"), resultInt))
+		Parents.itemId = resultInt;
+
+	if (JsonObject->TryGetStringField(TEXT("dataName"), result))
+		Parents.dataName = result;
+
+	if (JsonObject->TryGetNumberField(TEXT("dataValue"), resultInt))
+		Parents.dataValue = resultInt;
+
+	if (JsonObject->TryGetStringField(TEXT("vcName"), result))
+		Parents.vcName = result;
+
+	if (JsonObject->TryGetNumberField(TEXT("vcId"), resultInt))
+		Parents.vcId = resultInt;
+
+	if (JsonObject->TryGetNumberField(TEXT("type"), resultInt))
+		Parents.type = resultInt;
+
+
+	CallbackStruct.JsonData_Type01.Add(Parents);
 }
 

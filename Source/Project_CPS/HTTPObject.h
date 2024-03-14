@@ -84,8 +84,6 @@ struct FJsonStruct
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 	FString type = " ";
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
-	//TArray<TSharedPtr<FJsonValue>> ChildArray;
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
@@ -96,6 +94,29 @@ struct FJsonStruct
 
 };
 
+USTRUCT(BlueprintType)
+struct FJsonType01Struct
+{
+	GENERATED_BODY();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	int32 itemId = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	FString dataName = "";
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	int32 dataValue = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	int32 vcId = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	FString vcName = " ";
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	int32 type = 0;
+};
 
 USTRUCT(BlueprintType)
 struct FStructArray
@@ -105,10 +126,8 @@ struct FStructArray
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 	TArray<FJsonStruct> JsonData;
 
-	//TArray<TSharedPtr<FJsonValue>> GetChild;
-
-public:
-	//TArray<TSharedPtr<FJsonValue>> SetChild(TArray<TSharedPtr<FJsonValue>> Child) { return  GetChild = Child; }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	TArray<FJsonType01Struct> JsonData_Type01;
 };
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FHttpConnectStartDelegate);
@@ -125,6 +144,7 @@ class FJsonValue;
 struct FStructArray;
 class FJsonObject;
 struct FJsonFirstStruct;
+struct FJsonType01Struct;
 
 
 USTRUCT(BlueprintType)
@@ -181,6 +201,13 @@ public:
 	void SetLoopcount(int64 loopcount) { LoopCount = loopcount; }
 };
 
+UENUM(BlueprintType)
+enum class SettingAPI : uint8
+{
+	None = 0,
+	Type01 = 10,
+	Type02 = 50,
+};
 /**
  * 
  */
@@ -255,8 +282,8 @@ private:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Widget", meta = (AllowPrivateAccess = "true"))
 	ACPSHUD* MyHud;
 
-	//UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = " Struct", meta = (AllowPrivateAccess = "true"))
-	//TArray<UObject>ObjectArray;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ENum", meta = (AllowPrivateAccess = "true"))
+	SettingAPI APIENum;
 
 	int64 Count = 0;
 public:
@@ -282,5 +309,7 @@ public:
 
 	void ParseSecondChild(const TSharedPtr<FJsonObject>& JsonObject, FJsonSecondChildStruct& SecondChild);
 	
-	
+	//
+
+	void ParseParent_Type01(const TSharedPtr<FJsonObject>& JsonObject, FStructArray& CallbackStruct);
 };
